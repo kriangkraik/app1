@@ -1,0 +1,112 @@
+<div class="max-w-7xl mx-auto mt-6 px-4">
+  <h2 class="text-2xl font-semibold text-gray-800 mb-4">User List</h2>
+
+  <a routerLink="/add"
+    class="inline-block mb-4 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition">
+    Add User
+  </a>
+
+  <div class="overflow-auto">
+    <table class="min-w-full bg-white border border-gray-300 text-sm text-left text-gray-700">
+      <thead class="bg-gray-100 text-gray-700 font-medium">
+        <tr>
+          <th class="px-4 py-2 border cursor-pointer" (click)="sortData('id')">
+            ID
+            <span *ngIf="sortColumn === 'id'">
+              {{ sortDirection === 'asc' ? '▲' : '▼' }}
+            </span>
+          </th>
+
+          <th class="px-4 py-2 border cursor-pointer" (click)="sortData('firstname')">
+            First Name
+            <span *ngIf="sortColumn === 'firstname'">
+              {{ sortDirection === 'asc' ? '▲' : '▼' }}
+            </span>
+          </th>
+
+          <th class="px-4 py-2 border cursor-pointer" (click)="sortData('lastname')">
+            Last Name
+            <span *ngIf="sortColumn === 'lastname'">
+              {{ sortDirection === 'asc' ? '▲' : '▼' }}
+            </span>
+          </th>
+
+          <th class="px-4 py-2 border cursor-pointer" (click)="sortData('email')">
+            Email
+            <span *ngIf="sortColumn === 'email'">
+              {{ sortDirection === 'asc' ? '▲' : '▼' }}
+            </span>
+          </th>
+
+          <th class="px-4 py-2 border cursor-pointer" (click)="sortData('phoneNumber')">
+            Phone Number
+            <span *ngIf="sortColumn === 'phoneNumber'">
+              {{ sortDirection === 'asc' ? '▲' : '▼' }}
+            </span>
+          </th>
+
+          <th class="px-4 py-2 border cursor-pointer" (click)="sortData('address')">
+            Address
+            <span *ngIf="sortColumn === 'address'">
+              {{ sortDirection === 'asc' ? '▲' : '▼' }}
+            </span>
+          </th>
+
+          <th class="px-4 py-2 border cursor-pointer" (click)="sortData('city')">
+            City
+            <span *ngIf="sortColumn === 'city'">
+              {{ sortDirection === 'asc' ? '▲' : '▼' }}
+            </span>
+          </th>
+
+          <th class="px-4 py-2 border cursor-pointer" (click)="sortData('state')">
+            State
+            <span *ngIf="sortColumn === 'state'">
+              {{ sortDirection === 'asc' ? '▲' : '▼' }}
+            </span>
+          </th>
+
+          <th class="px-4 py-2 border cursor-pointer" (click)="sortData('country')">
+            Country
+            <span *ngIf="sortColumn === 'country'">
+              {{ sortDirection === 'asc' ? '▲' : '▼' }}
+            </span>
+          </th>
+
+          <th class="px-4 py-2 border cursor-pointer" (click)="sortData('zipCode')">
+            Zip Code
+            <span *ngIf="sortColumn === 'zipCode'">
+              {{ sortDirection === 'asc' ? '▲' : '▼' }}
+            </span>
+          </th>
+
+          <th class="px-4 py-2 border">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of users" class="hover:bg-gray-50">
+          <td class="px-4 py-2 border">{{ user.id }}</td>
+          <td class="px-4 py-2 border">{{ user.firstname }}</td>
+          <td class="px-4 py-2 border">{{ user.lastname }}</td>
+          <td class="px-4 py-2 border">{{ user.email }}</td>
+          <td class="px-4 py-2 border">{{ user.phoneNumber }}</td>
+          <td class="px-4 py-2 border">{{ user.address }}</td>
+          <td class="px-4 py-2 border">{{ user.city }}</td>
+          <td class="px-4 py-2 border">{{ user.state }}</td>
+          <td class="px-4 py-2 border">{{ user.country }}</td>
+          <td class="px-4 py-2 border">{{ user.zipCode }}</td>
+          <td class="px-4 py-2 border space-x-2">
+            <a [routerLink]="['/edit', user.id]"
+              class="inline-block bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 text-xs transition">
+              Edit
+            </a>
+            <button (click)="deleteUser(user.id!)"
+              class="inline-block bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 text-xs transition">
+              Delete
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

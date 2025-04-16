@@ -1,0 +1,30 @@
+<div class="max-w-xl mx-auto p-6 bg-white shadow-lg rounded-lg">
+  <h2 class="text-2xl font-semibold mb-6 text-gray-800">User Registration Form</h2>
+  <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+    <div class="space-y-4">
+      <div *ngFor="let field of formFields" class="flex flex-col">
+        <label [for]="field.name" class="mb-1 text-gray-700 font-medium">{{ field.label }}</label>
+        <input [type]="field.type" [id]="field.name" [formControlName]="field.name" [placeholder]="field.placeholder"
+          class="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <div *ngIf="userForm.get(field.name)?.invalid && userForm.get(field.name)?.touched"
+          class="text-sm text-red-600 mt-1">
+          <span *ngIf="userForm.get(field.name)?.errors?.['required']">{{ field.label }} is required</span>
+          <span *ngIf="field.name === 'email' && userForm.get(field.name)?.errors?.['email']">Please enter a valid
+            email</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex justify-end space-x-4 mt-6">
+      <button type="submit" [disabled]="userForm.invalid"
+        class="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 disabled:bg-blue-300">
+        Submit
+      </button>
+      <button type="button" class="bg-gray-300 text-gray-800 px-6 py-2 rounded-md hover:bg-gray-400"
+        (click)="onCancel()">
+        Cancel
+      </button>
+
+    </div>
+  </form>
+</div>
