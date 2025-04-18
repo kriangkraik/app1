@@ -3,17 +3,42 @@ import { UserService } from '../../services/user.service';
 import { User } from '../../models/user';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-user-list',
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, NgxPaginationModule, FormsModule],
   templateUrl: './user-list.component.html',
   styleUrls: ['./user-list.component.css']
 })
 export class UserListComponent implements OnInit {
   users: User[] = [];
 
+  p: number = 1;
+
+  searchText: string = '';
+
   constructor(private readonly userService: UserService) { }
+
+  get filteredUsers(): User[] {
+    if (!this.searchText) return this.users;
+
+    const lowerSearch = this.searchText.toLowerCase();
+
+    return this.users.filter(user =>
+      user.id?.toString().includes(lowerSearch) ||
+      user.firstname?.toLowerCase().includes(lowerSearch) ||
+      user.lastname?.toLowerCase().includes(lowerSearch) ||
+      user.email?.toLowerCase().includes(lowerSearch) ||
+      user.phoneNumber?.toLowerCase().includes(lowerSearch) ||
+      user.address?.toLowerCase().includes(lowerSearch) ||
+      user.city?.toLowerCase().includes(lowerSearch) ||
+      user.state?.toLowerCase().includes(lowerSearch) ||
+      user.country?.toLowerCase().includes(lowerSearch) ||
+      user.zipCode?.toLowerCase().includes(lowerSearch)
+    );
+  }
 
   ngOnInit(): void {
     this.loadUsers();

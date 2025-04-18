@@ -14,6 +14,8 @@ import { UserService } from '../../services/user.service';
   styleUrl: './user-form.component.css'
 })
 export class UserFormComponent {
+  passwordVisible = false;
+
   @Input() userData: User | null = null; // รับข้อมูลผู้ใช้เพื่อแก้ไข
   userForm!: FormGroup;
   formSubmitted = false; // เพิ่มตัวแปรเพื่อตรวจสอบการ submit
@@ -51,6 +53,10 @@ export class UserFormComponent {
     });
   }
 
+  togglePasswordVisibility() {
+    this.passwordVisible = !this.passwordVisible;
+  }
+
   ngOnInit(): void {
     this.initForm();
     const userId = this.route.snapshot.paramMap.get('id');
@@ -63,6 +69,7 @@ export class UserFormComponent {
 
   initForm(): void {
     this.userForm = this.fb.group({
+      id: [''], // เพิ่มตรงนี้ด้วย
       firstname: ['', Validators.required],
       lastname: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
@@ -96,18 +103,39 @@ export class UserFormComponent {
     return this.http.post<User>('http://localhost:8080/api/v1/user', user);
   }
 
+  updateUser(user: User): Observable<User> {
+    return this.http.put<User>(`http://localhost:8080/api/v1/user/${user.id}`, user);
+  }
+
   onSubmit(): void {
+    this.formSubmitted = true;
+
     if (this.userForm?.valid) {
       const userData: User = this.userForm.value;
-      this.createUser(userData).subscribe({
-        next: (response: any) => {
-          console.log("User created:", response);
-          this.router.navigate(['/']); // นำทางกลับหน้าหลัก
-        },
-        error: (err: any) => {
-          console.error("Error creating user:", err);
-        }
-      });
+
+      if (userData.id) {
+        // กรณี Update
+        this.userService.updateUser(userData.id, userData).subscribe({
+          next: (response: any) => {
+            console.log("User updated:", response);
+            this.router.navigate(['/']); // นำทางกลับหน้าหลัก
+          },
+          error: (err: any) => {
+            console.error("Error updating user:", err);
+          }
+        });
+      } else {
+        // กรณี Create
+        this.createUser(userData).subscribe({
+          next: (response: any) => {
+            console.log("User created:", response);
+            this.router.navigate(['/']); // นำทางกลับหน้าหลัก
+          },
+          error: (err: any) => {
+            console.error("Error creating user:", err);
+          }
+        });
+      }
     }
   }
 

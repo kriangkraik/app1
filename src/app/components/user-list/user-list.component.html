@@ -1,90 +1,58 @@
-<div class="max-w-7xl mx-auto mt-6 px-4">
-  <h2 class="text-2xl font-semibold text-gray-800 mb-4">User List</h2>
+<div class="max-w-7xl mx-auto mt-10 px-4">
+  <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6">
+    <h2 class="text-3xl font-bold text-gray-800">User List</h2>
 
-  <a routerLink="/add"
-    class="inline-block mb-4 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition">
-    Add User
-  </a>
+    <a routerLink="/add"
+      class="inline-flex items-center gap-2 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition shadow-sm mt-4 sm:mt-0">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"></path>
+      </svg>
+      Add User
+    </a>
+  </div>
 
-  <div class="overflow-auto">
-    <table class="min-w-full bg-white border border-gray-300 text-sm text-left text-gray-700">
-      <thead class="bg-gray-100 text-gray-700 font-medium">
+  <div class="overflow-auto bg-white rounded-lg shadow border border-gray-200 p-4">
+    <div class="relative w-full sm:w-1/2 mb-4">
+      <input type="text" [(ngModel)]="searchText" placeholder="Search by name, email, phone..."
+        class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
+      <div class="absolute left-3 top-2.5 text-gray-400">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M11 19a8 8 0 100-16 8 8 0 000 16z">
+          </path>
+        </svg>
+      </div>
+    </div>
+
+    <table class="min-w-full text-sm text-left text-gray-700 border border-gray-300">
+      <thead class="bg-gray-100 text-gray-700 font-semibold">
         <tr>
-          <th class="px-4 py-2 border cursor-pointer" (click)="sortData('id')">
-            ID
-            <span *ngIf="sortColumn === 'id'">
-              {{ sortDirection === 'asc' ? '▲' : '▼' }}
-            </span>
-          </th>
-
-          <th class="px-4 py-2 border cursor-pointer" (click)="sortData('firstname')">
-            First Name
-            <span *ngIf="sortColumn === 'firstname'">
-              {{ sortDirection === 'asc' ? '▲' : '▼' }}
-            </span>
-          </th>
-
-          <th class="px-4 py-2 border cursor-pointer" (click)="sortData('lastname')">
-            Last Name
-            <span *ngIf="sortColumn === 'lastname'">
-              {{ sortDirection === 'asc' ? '▲' : '▼' }}
-            </span>
-          </th>
-
-          <th class="px-4 py-2 border cursor-pointer" (click)="sortData('email')">
-            Email
-            <span *ngIf="sortColumn === 'email'">
-              {{ sortDirection === 'asc' ? '▲' : '▼' }}
-            </span>
-          </th>
-
-          <th class="px-4 py-2 border cursor-pointer" (click)="sortData('phoneNumber')">
-            Phone Number
-            <span *ngIf="sortColumn === 'phoneNumber'">
-              {{ sortDirection === 'asc' ? '▲' : '▼' }}
-            </span>
-          </th>
-
-          <th class="px-4 py-2 border cursor-pointer" (click)="sortData('address')">
-            Address
-            <span *ngIf="sortColumn === 'address'">
-              {{ sortDirection === 'asc' ? '▲' : '▼' }}
-            </span>
-          </th>
-
-          <th class="px-4 py-2 border cursor-pointer" (click)="sortData('city')">
-            City
-            <span *ngIf="sortColumn === 'city'">
-              {{ sortDirection === 'asc' ? '▲' : '▼' }}
-            </span>
-          </th>
-
-          <th class="px-4 py-2 border cursor-pointer" (click)="sortData('state')">
-            State
-            <span *ngIf="sortColumn === 'state'">
-              {{ sortDirection === 'asc' ? '▲' : '▼' }}
-            </span>
-          </th>
-
-          <th class="px-4 py-2 border cursor-pointer" (click)="sortData('country')">
-            Country
-            <span *ngIf="sortColumn === 'country'">
-              {{ sortDirection === 'asc' ? '▲' : '▼' }}
-            </span>
-          </th>
-
-          <th class="px-4 py-2 border cursor-pointer" (click)="sortData('zipCode')">
-            Zip Code
-            <span *ngIf="sortColumn === 'zipCode'">
-              {{ sortDirection === 'asc' ? '▲' : '▼' }}
-            </span>
-          </th>
-
-          <th class="px-4 py-2 border">Actions</th>
+          <th class="px-4 py-2 border cursor-pointer" (click)="sortData('id')">ID <span *ngIf="sortColumn === 'id'">{{
+              sortDirection === 'asc' ? '▲' : '▼' }}</span></th>
+          <th class="px-4 py-2 border cursor-pointer" (click)="sortData('firstname')">First Name <span
+              *ngIf="sortColumn === 'firstname'">{{ sortDirection === 'asc' ? '▲' : '▼' }}</span></th>
+          <th class="px-4 py-2 border cursor-pointer" (click)="sortData('lastname')">Last Name <span
+              *ngIf="sortColumn === 'lastname'">{{ sortDirection === 'asc' ? '▲' : '▼' }}</span></th>
+          <th class="px-4 py-2 border cursor-pointer" (click)="sortData('email')">Email <span
+              *ngIf="sortColumn === 'email'">{{ sortDirection === 'asc' ? '▲' : '▼' }}</span></th>
+          <th class="px-4 py-2 border cursor-pointer" (click)="sortData('phoneNumber')">Phone <span
+              *ngIf="sortColumn === 'phoneNumber'">{{ sortDirection === 'asc' ? '▲' : '▼' }}</span></th>
+          <th class="px-4 py-2 border cursor-pointer" (click)="sortData('address')">Address <span
+              *ngIf="sortColumn === 'address'">{{ sortDirection === 'asc' ? '▲' : '▼' }}</span></th>
+          <th class="px-4 py-2 border cursor-pointer" (click)="sortData('city')">City <span
+              *ngIf="sortColumn === 'city'">{{ sortDirection === 'asc' ? '▲' : '▼' }}</span></th>
+          <th class="px-4 py-2 border cursor-pointer" (click)="sortData('state')">State <span
+              *ngIf="sortColumn === 'state'">{{ sortDirection === 'asc' ? '▲' : '▼' }}</span></th>
+          <th class="px-4 py-2 border cursor-pointer" (click)="sortData('country')">Country <span
+              *ngIf="sortColumn === 'country'">{{ sortDirection === 'asc' ? '▲' : '▼' }}</span></th>
+          <th class="px-4 py-2 border cursor-pointer" (click)="sortData('zipCode')">Zip <span
+              *ngIf="sortColumn === 'zipCode'">{{ sortDirection === 'asc' ? '▲' : '▼' }}</span></th>
+          <th class="px-4 py-2 border text-center w-[160px]">Actions</th>
         </tr>
       </thead>
-      <tbody>
-        <tr *ngFor="let user of users" class="hover:bg-gray-50">
+      <tbody *ngIf="(filteredUsers | paginate: { itemsPerPage: 5, currentPage: p }).length > 0">
+        <tr *ngFor="let user of filteredUsers | paginate: { itemsPerPage: 5, currentPage: p }">
           <td class="px-4 py-2 border">{{ user.id }}</td>
           <td class="px-4 py-2 border">{{ user.firstname }}</td>
           <td class="px-4 py-2 border">{{ user.lastname }}</td>
@@ -95,18 +63,25 @@
           <td class="px-4 py-2 border">{{ user.state }}</td>
           <td class="px-4 py-2 border">{{ user.country }}</td>
           <td class="px-4 py-2 border">{{ user.zipCode }}</td>
-          <td class="px-4 py-2 border space-x-2">
-            <a [routerLink]="['/edit', user.id]"
-              class="inline-block bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 text-xs transition">
-              Edit
-            </a>
-            <button (click)="deleteUser(user.id!)"
-              class="inline-block bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 text-xs transition">
-              Delete
-            </button>
+          <td class="px-4 py-2 border text-center w-[160px]">
+            <div class="flex justify-center gap-2">
+              <a [routerLink]="['/edit', user.id]"
+                class="inline-flex items-center bg-blue-600 text-white px-2 py-1 rounded hover:bg-blue-700 text-xs">
+                ✏️ Edit
+              </a>
+              <button (click)="deleteUser(user.id!)"
+                class="inline-flex items-center bg-red-600 text-white px-2 py-1 rounded hover:bg-red-700 text-xs">
+                🗑 Delete
+              </button>
+            </div>
           </td>
         </tr>
       </tbody>
     </table>
+
+    <div class="mt-6">
+      <pagination-controls (pageChange)="p = $event"
+        class="flex justify-center text-sm text-gray-600"></pagination-controls>
+    </div>
   </div>
 </div>
