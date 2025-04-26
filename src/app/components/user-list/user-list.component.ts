@@ -10,33 +10,36 @@ import { FormsModule } from '@angular/forms';
   selector: 'app-user-list',
   imports: [CommonModule, RouterModule, NgxPaginationModule, FormsModule],
   templateUrl: './user-list.component.html',
-  styleUrls: ['./user-list.component.css']
+  styleUrls: ['./user-list.component.css'],
 })
 export class UserListComponent implements OnInit {
   users: User[] = [];
 
   p: number = 1;
 
+  itemsPerPage: number = 5; // Default rows per page
+
   searchText: string = '';
 
-  constructor(private readonly userService: UserService) { }
+  constructor(private readonly userService: UserService) {}
 
   get filteredUsers(): User[] {
     if (!this.searchText) return this.users;
 
     const lowerSearch = this.searchText.toLowerCase();
 
-    return this.users.filter(user =>
-      user.id?.toString().includes(lowerSearch) ||
-      user.firstname?.toLowerCase().includes(lowerSearch) ||
-      user.lastname?.toLowerCase().includes(lowerSearch) ||
-      user.email?.toLowerCase().includes(lowerSearch) ||
-      user.phoneNumber?.toLowerCase().includes(lowerSearch) ||
-      user.address?.toLowerCase().includes(lowerSearch) ||
-      user.city?.toLowerCase().includes(lowerSearch) ||
-      user.state?.toLowerCase().includes(lowerSearch) ||
-      user.country?.toLowerCase().includes(lowerSearch) ||
-      user.zipCode?.toLowerCase().includes(lowerSearch)
+    return this.users.filter(
+      (user) =>
+        user.id?.toString().includes(lowerSearch) ||
+        user.firstname?.toLowerCase().includes(lowerSearch) ||
+        user.lastname?.toLowerCase().includes(lowerSearch) ||
+        user.email?.toLowerCase().includes(lowerSearch) ||
+        user.phoneNumber?.toLowerCase().includes(lowerSearch) ||
+        user.address?.toLowerCase().includes(lowerSearch) ||
+        user.city?.toLowerCase().includes(lowerSearch) ||
+        user.state?.toLowerCase().includes(lowerSearch) ||
+        user.country?.toLowerCase().includes(lowerSearch) ||
+        user.zipCode?.toLowerCase().includes(lowerSearch)
     );
   }
 
@@ -45,7 +48,11 @@ export class UserListComponent implements OnInit {
   }
 
   loadUsers() {
-    this.userService.getUsers().subscribe(data => this.users = data);
+    this.userService
+      .getUsers(this.p - 1, this.itemsPerPage)
+      .subscribe((response: any) => {
+        this.users = response.content; // Extract the content array from the paginated response
+      });
   }
 
   deleteUser(id: number) {
@@ -64,8 +71,10 @@ export class UserListComponent implements OnInit {
     }
 
     this.users.sort((a: any, b: any) => {
-      const valueA = typeof a[column] === 'string' ? a[column].toLowerCase() : a[column];
-      const valueB = typeof b[column] === 'string' ? b[column].toLowerCase() : b[column];
+      const valueA =
+        typeof a[column] === 'string' ? a[column].toLowerCase() : a[column];
+      const valueB =
+        typeof b[column] === 'string' ? b[column].toLowerCase() : b[column];
 
       if (valueA < valueB) return this.sortDirection === 'asc' ? -1 : 1;
       if (valueA > valueB) return this.sortDirection === 'asc' ? 1 : -1;
